@@ -2,3 +2,4 @@
 venv
 backend/build
 backend/backend/__pycache__
+frontend/node_modules
