@@ -14,7 +14,7 @@ axios.defaults.withCredentials = true;
 const client = axios.create();
 
 function App() {
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(false);
   const [registrationToggle, setRegistrationToggle] = useState(false);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -32,16 +32,17 @@ function App() {
   }, []);
 
   function update_form_btn() {
-    if (registrationToggle) {
-      document.getElementById("form_btn").innerHTML = "Register";
+    const formButton = document.getElementById("form_btn");
+    if (registrationToggle && formButton) {
+      formButton.innerHTML = "Register";
       setRegistrationToggle(false);
-    } else {
-      document.getElementById("form_btn").innerHTML = "Log in";
+    } else if (formButton) {
+      formButton.innerHTML = "Log in";
       setRegistrationToggle(true);
     }
   }
 
-  function submitRegistration(e) {
+  function submitRegistration(e: React.FormEvent) {
     e.preventDefault();
     client
       .post("/api/register", {
@@ -61,7 +62,7 @@ function App() {
       });
   }
 
-  function submitLogin(e) {
+  function submitLogin(e: React.FormEvent) {
     e.preventDefault();
     client
       .post("/api/login", {
@@ -73,7 +74,7 @@ function App() {
       });
   }
 
-  function submitLogout(e) {
+  function submitLogout(e: React.FormEvent) {
     e.preventDefault();
     client.post("/api/logout", { withCredentials: true }).then(function (res) {
       setCurrentUser(false);
